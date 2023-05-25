@@ -1,26 +1,39 @@
 name: APIM - Extract DevPortal Customizations
 
+## add dispatch, environment variables, and permissions
+
 on:
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  APIM-extract-DevPortal:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    environment: dev
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: azure/login@v1
+        with:
+          client-id: ""
+          tenant-id: ""
+          subscription-id: ""
+          
+      - id: apim-export
+        name: Export developer portal content
+        uses: jannemattila/azure-api-management-developer-portal-action@v1
+        with:
+          apimName: contoso # Your Azure API Management instance name
+          resourceGroup: apim-dev-rg # Name of the resource group
+          direction: Export # Export or Import
+          folder: somepath # (optional) Folder used for storing the developer portal content
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Upload developer portal content as artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: portal
+          path: ${{ steps.apim-export.outputs.folder }}
+          if-no-files-found: error
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+### Create a branch/pull request
