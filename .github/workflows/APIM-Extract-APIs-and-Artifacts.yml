@@ -68,6 +68,15 @@ jobs:
       CONFIGURATION_YAML_PATH: ${{github.event.inputs.CONFIGURATION_YAML_PATH}}
       
     steps:
+      - run: |
+          Write-Host "Environment: ${{inputs.environment}}"
+          Write-Host "CONFIGURATION_YAML_PATH: ${{env.CONFIGURATION_YAML_PATH}}"
+          Write-Host "API_SPECIFICATION_FORMAT: ${{env.API_SPECIFICATION_FORMAT}}"
+          Write-Host "API_MANAGEMENT_SERVICE_NAME: ${{env.API_MANAGEMENT_SERVICE_NAME}}"
+          Write-Host "AZURE_RESOURCE_GROUP_NAME: ${{env.AZURE_RESOURCE_GROUP_NAME}}"
+          Write-Host "API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{env.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH}}"
+        shell: pwsh
+        
       - uses: actions/checkout@v3
           
       - name: Run extractor without Config Yaml
