@@ -53,7 +53,7 @@ env:
   RUNNER_DEBUG: 1
 
 jobs:
-  extract:
+  APIM-extract-apis:
     runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
     #if: ${{ inputs.environment != 'dev'}}  #### Don't want to inadvertantly deploy back to dev as it is our starting point, but may want to override in future ###
