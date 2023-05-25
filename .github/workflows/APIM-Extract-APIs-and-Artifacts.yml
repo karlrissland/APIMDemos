@@ -50,6 +50,7 @@ permissions:
 
 env:
   apiops_release_version: v4.1.2
+  RUNNER_DEBUG: 1
 
 jobs:
   extract:
