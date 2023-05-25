@@ -68,7 +68,7 @@ jobs:
       
     steps:
       - run: |
-          if (${{inputs.CONFIGURATION_YAML_PATH}} -ne "Extract All APIs" )
+          if ("${{inputs.CONFIGURATION_YAML_PATH}}" -ne "Extract All APIs" )
           {
           echo "CONFIGURATION_YAML_PATH=${{github.event.inputs.CONFIGURATION_YAML_PATH}}" >> "$GITHUB_ENV"
           }
