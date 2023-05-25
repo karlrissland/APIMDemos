@@ -26,7 +26,6 @@ on:
         description: 'environment to extract from'
         required: true
         type: environment
-        default: 'dev'
       CONFIGURATION_YAML_PATH:
         description: 'Choose Wether to extract all Apis or extract apis listed an extraction configuration file'     
         required: true
@@ -56,7 +55,7 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
-    if: ${{ inputs.environment != 'dev'}}  #### Don't want to inadvertantly deploy back to dev as it is our starting point, but may want to override in future ###
+    #if: ${{ inputs.environment != 'dev'}}  #### Don't want to inadvertantly deploy back to dev as it is our starting point, but may want to override in future ###
     env:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
