@@ -68,10 +68,11 @@ jobs:
       
     steps:
       - run: |
-          if ['${{inputs.CONFIGURATION_YAML_PATH}}' != 'Extract All APIs']; then
-            echo "CONFIGURATION_YAML_PATH=${{github.event.inputs.CONFIGURATION_YAML_PATH}}" >> "$GITHUB_ENV"
-          fi
-        shell: bash
+          if ("${{inputs.CONFIGURATION_YAML_PATH}}" -ne "Extract All APIs" )
+          {
+            "CONFIGURATION_YAML_PATH=${{github.event.inputs.CONFIGURATION_YAML_PATH}}" >> $env:GITHUB_ENV
+          }
+        shell: pwsh
     
       - run: |
           Write-Host "Environment: ${{inputs.environment}}"
