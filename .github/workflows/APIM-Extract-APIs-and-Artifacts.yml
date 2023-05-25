@@ -67,12 +67,11 @@ jobs:
       API_SPECIFICATION_FORMAT: ${{ github.event.inputs.API_SPECIFICATION_FORMAT }} 
       #CONFIGURATION_YAML_PATH: ${{github.event.inputs.CONFIGURATION_YAML_PATH}}
       #CONFIGURATION_YAML_PATH: ""
-      apimServiceName: ${{ vars.API_MANAGEMENT_SERVICE_NAME }}
-      namedValues__0__name: environment
-      namedValues__0__properties__displayName: environment
-      namedValues__0__properties__value: https://www.search2.com
       
     steps:
+      - run: |
+          echo "CONFIGURATION_YAML_PATH=${{github.event.inputs.CONFIGURATION_YAML_PATH}}" >> "$GITHUB_ENV"
+    
       - run: |
           Write-Host "Environment: ${{inputs.environment}}"
           Write-Host "CONFIGURATION_YAML_PATH: ${{env.CONFIGURATION_YAML_PATH}}"
