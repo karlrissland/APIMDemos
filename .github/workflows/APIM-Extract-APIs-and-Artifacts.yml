@@ -45,7 +45,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 env:
   apiops_release_version: v4.1.2
@@ -67,6 +67,11 @@ jobs:
       API_SPECIFICATION_FORMAT: ${{inputs.API_SPECIFICATION_FORMAT}} 
       
     steps:
+      #############################################################################################
+      #NOTE: The extractor is looking for the existance of this environment variable to determine #
+      #      if it is going to extract a set of APIs as opposed to all the APIS.  If we are       #
+      #      going to extract all APIs, we simply don't create that environment variable          #
+      #############################################################################################
       - run: |
           if ("${{inputs.CONFIGURATION_YAML_PATH}}" -ne "Extract All APIs" )
           {
@@ -85,8 +90,7 @@ jobs:
         
       - uses: actions/checkout@v3
           
-      - name: Run extractor without Config Yaml
-        if: ${{ env.CONFIGURATION_YAML_PATH == 'Extract All APIs' }}
+      - name: Run extractor
         run: |
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
@@ -101,8 +105,6 @@ jobs:
           Write-Information "DestinationFilePath: $destinationFilePath"
           Write-Information "Extractor downloaded..."
           
-          dir
-
           if ("${{ runner.os }}" -like "*linux*")
           {
             Write-Information "Setting file permissions..."
@@ -117,33 +119,6 @@ jobs:
           Write-Information "Execution complete."
         shell: pwsh
       
-      - name: Run extractor with Config Yaml
-        if: ${{ env.CONFIGURATION_YAML_PATH != 'Extract All APIs' }}
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $VerbosePreference = "Continue"
-          $InformationPreference = "Continue"
-
-          Write-Information "Downloading extractor..."
-          $extractorFileName = "${{ runner.os }}" -like "*win*" ? "extractor.win-x64.exe" : "extractor.linux-x64.exe"
-          $uri = "https://github.com/Azure/apiops/releases/download/${{ env.apiops_release_version }}/$extractorFileName"
-          $destinationFilePath = Join-Path "${{ runner.temp }}" "extractor.exe"
-          Invoke-WebRequest -Uri "$uri" -OutFile "$destinationFilePath"
-
-          if ("${{ runner.os }}" -like "*linux*")
-          {
-            Write-Information "Setting file permissions..."
-            & chmod +x "$destinationFilePath"
-            if ($LASTEXITCODE -ne 0) { throw "Setting file permissions failed."}
-          }
-
-          & "$destinationFilePath"              
-          if ($LASTEXITCODE -ne 0) { throw "Running extractor failed."}
-
-          Write-Information "Execution complete."
-        shell: pwsh
-
       - name: publish artifact
         uses: actions/upload-artifact@v2
         with:
