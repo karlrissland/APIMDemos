@@ -53,7 +53,7 @@ jobs:
         uses: jannemattila/azure-api-management-developer-portal-action@v1
         with:
           apimName: '${{env.APIM_NAME}}'
-          resourceGroup: '${{env.RESOURCE_GROUP}}'
+          resourceGroup: apim-vqcxv-demos-dev #'${{env.RESOURCE_GROUP}}'
           direction: '${{env.DIRECTION}}'
           folder: '${{env.OUTPUT_FOLDER}}'
 
