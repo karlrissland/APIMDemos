@@ -71,6 +71,8 @@ jobs:
           name: APIM-Dev-Portal-Customizations
           path: ${{env.OUTPUT_FOLDER}}
           if-no-files-found: error
+          
+      - uses: actions/checkout@v3    
 
       - name: Create artifacts pull request
         uses: peter-evans/create-pull-request@v5     
