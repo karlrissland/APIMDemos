@@ -46,6 +46,7 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: '${{env.AZURE_CREDENTIALS}}'
+          enable-AzPSSession: true
           
       - id: apim-export
         name: Export developer portal content
