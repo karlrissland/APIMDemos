@@ -49,6 +49,8 @@ jobs:
           enable-AzPSSession: true
           
       - run: |
+          Install-Module Az
+          Import-Module Az
           $SecureStringPwd = "${{ secrets.AZURE_CLIENT_SECRET }}" | ConvertTo-SecureString -AsPlainText -Force
           $pscredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList ${{ secrets.AZURE_CLIENT_ID }}, $SecureStringPwd
           Connect-AzAccount -ServicePrincipal -Credential $pscredential -Tenant "${{ secrets.AZURE_TENANT_ID }}"
