@@ -28,7 +28,7 @@ jobs:
     environment: ${{inputs.environment}}
     
     env:
-      RESOURCE_GOUP: ${{vars.AZURE_RESOURCE_GROUP_NAME}}
+      RESOURCE_GROUP: ${{vars.AZURE_RESOURCE_GROUP_NAME}}
       APIM_NAME: ${{vars.API_MANAGEMENT_SERVICE_NAME}}
       AZURE_CEDENTIALS: ${{secrets.AZURE_CREDENTIALS}}
       DIRECTION: 'Export' #use 'Import' to push changes into service
