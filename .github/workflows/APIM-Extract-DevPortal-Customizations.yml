@@ -49,7 +49,7 @@ jobs:
           enable-AzPSSession: true
           
       - run: |
-          Install-PsResource -Name Az -Scope CurrentUser -Repository PSGallery -Verbose
+          Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
           Import-Module Az
           $SecureStringPwd = "${{ secrets.AZURE_CLIENT_SECRET }}" | ConvertTo-SecureString -AsPlainText -Force
           $pscredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList ${{ secrets.AZURE_CLIENT_ID }}, $SecureStringPwd
