@@ -73,8 +73,10 @@ jobs:
           if-no-files-found: error
           
       - run: |
-          dir ${{env.OUTPUT_FOLDER}}
-          dir ${{ steps.apim-export.outputs.folder }}
+          ls ${{env.OUTPUT_FOLDER}}
+          Write-Host "--------------"
+          ls ${{ steps.apim-export.outputs.folder }}
+          Write-Host "--------------"
         shell: pwsh
         
       - uses: actions/checkout@v3    
