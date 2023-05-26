@@ -50,6 +50,7 @@ jobs:
           
       - run: |
           az account show
+          Get-AzContext
         shell: pwsh
           
       - id: apim-export
