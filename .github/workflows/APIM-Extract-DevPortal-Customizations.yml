@@ -75,7 +75,7 @@ jobs:
       - run: |
           ls ${{env.OUTPUT_FOLDER}}
           Write-Host "--------------"
-          ls ${{ steps.apim-export.outputs.folder }}
+          ls ${{ env.OUTPUT_FOLDER }}/Media
           Write-Host "--------------"
         shell: pwsh
         
