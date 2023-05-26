@@ -74,6 +74,7 @@ jobs:
           
       - run: |
           dir ${{env.OUTPUT_FOLDER}}
+          dir ${{ steps.apim-export.outputs.folder }}
         shell: pwsh
         
       - uses: actions/checkout@v3    
