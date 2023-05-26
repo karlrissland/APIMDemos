@@ -72,6 +72,10 @@ jobs:
           path: ${{env.OUTPUT_FOLDER}}
           if-no-files-found: error
           
+      - run: |
+          dir ${{env.OUTPUT_FOLDER}}
+        shell: pwsh
+        
       - uses: actions/checkout@v3    
 
       - name: Create artifacts pull request
