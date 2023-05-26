@@ -35,6 +35,14 @@ jobs:
       OUTPUT_FOLDER: ${{ GITHUB.WORKSPACE }}/src/APIMDevPortal
    
     steps:
+      - run: |
+          Write-Host "Environment: ${{inputs.environment}}"
+          Write-Host "RESOURCE_GOUP: ${{env.RESOURCE_GOUP}}"
+          Write-Host "APIM_NAME: ${{env.APIM_NAME}}"
+          Write-Host "DIRECTION: ${{env.DIRECTION}}"
+          Write-Host "OUTPUT_FOLDER: ${{env.OUTPUT_FOLDER}}"
+        shell: pwsh
+    
       - uses: azure/login@v1
         with:
           creds: '${{env.AZURE_CREDENTIALS}}'
