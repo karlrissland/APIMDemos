@@ -52,10 +52,10 @@ jobs:
         name: Export developer portal content
         uses: jannemattila/azure-api-management-developer-portal-action@v1
         with:
-          apimName: '${{env.APIM_NAME}}'
-          resourceGroup: apim-vqcxv-demos-dev #'${{env.RESOURCE_GROUP}}'
-          direction: '${{env.DIRECTION}}'
-          folder: '${{env.OUTPUT_FOLDER}}'
+          apimName: "${{env.APIM_NAME}}"
+          resourceGroup: "${{env.RESOURCE_GROUP}}"
+          direction: "${{env.DIRECTION}}"
+          folder: "${{env.OUTPUT_FOLDER}}"
 
       - name: Upload developer portal content as artifact
         uses: actions/upload-artifact@v2.2.4
