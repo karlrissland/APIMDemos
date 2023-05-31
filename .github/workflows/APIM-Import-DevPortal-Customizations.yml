@@ -64,7 +64,7 @@ jobs:
           If(!(Test-Path -path "${{env.OUTPUT_FOLDER}}\Media\"))
           {
             #if it does not create it
-            New-Item -ItemType -type Directory -Force -Path "${{env.OUTPUT_FOLDER}}\Media"
+            mkdir "${{env.OUTPUT_FOLDER}}\Media"
           }
         shell: pwsh
 
