@@ -84,6 +84,8 @@ jobs:
       - name: Create artifacts pull request
         uses: peter-evans/create-pull-request@v5     
         with:
+          add-paths: |
+            ${{env.OUTPUT_FOLDER}}/*
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "updated dev portal extract from apim instance ${{env.OUTPUT_FOLDER}}"
           title: ${{env.OUTPUT_FOLDER}} - extract"
