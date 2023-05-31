@@ -39,6 +39,7 @@ jobs:
           Write-Host "APIM_NAME: ${{env.APIM_NAME}}"
           Write-Host "DIRECTION: ${{env.DIRECTION}}"
           Write-Host "OUTPUT_FOLDER: ${{env.OUTPUT_FOLDER}}"
+          Write-Host "vars: ${{vars}}"
         shell: pwsh
         
       - uses: actions/checkout@v3    
