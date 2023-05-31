@@ -57,6 +57,16 @@ jobs:
           $pscredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList ${{ secrets.AZURE_CLIENT_ID }}, $SecureStringPwd
           Connect-AzAccount -ServicePrincipal -Credential $pscredential -Tenant "${{ secrets.AZURE_TENANT_ID }}"
         shell: pwsh
+        
+        #There is an edge case where only text has been customized
+        #this doesn't create a media folder
+      - run: |
+          If(!(Test-Path -path "${{env.OUTPUT_FOLDER}}\Media\"))
+          {
+            #if it does not create it
+            New-Item -ItemType -type Directory -Force -Path "${{env.OUTPUT_FOLDER}}\Media"
+          }
+        shell: pwsh
 
       - id: apim-import
         name: import developer portal content
