@@ -1,0 +1,66 @@
+name: APIM - Import DevPortal Customizations
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'environment to extract from'
+        required: true
+        type: string
+        default: 'prod'
+        
+  workflow_dispatch:
+    inputs:
+      environment: 
+        description: 'environment to extract from'
+        required: true
+        type: environment
+  
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  APIM-Import-DevPortal:
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
+    
+    env:
+      RESOURCE_GROUP: ${{vars.AZURE_RESOURCE_GROUP_NAME}}
+      APIM_NAME: ${{vars.API_MANAGEMENT_SERVICE_NAME}}
+      DIRECTION: 'Import' 
+      OUTPUT_FOLDER: ${{ GITHUB.WORKSPACE }}/src/APIMDevPortal
+
+    steps:
+      - run: |
+          Write-Host "Environment: ${{inputs.environment}}"
+          Write-Host "RESOURCE_GOUP: ${{env.RESOURCE_GOUP}}"
+          Write-Host "APIM_NAME: ${{env.APIM_NAME}}"
+          Write-Host "DIRECTION: ${{env.DIRECTION}}"
+          Write-Host "OUTPUT_FOLDER: ${{env.OUTPUT_FOLDER}}"
+        shell: pwsh
+        
+      - uses: actions/checkout@v3    
+          
+      - uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+          enable-AzPSSession: true
+        
+      - run: |
+          Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+          Import-Module Az
+          $SecureStringPwd = "${{ secrets.AZURE_CLIENT_SECRET }}" | ConvertTo-SecureString -AsPlainText -Force
+          $pscredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList ${{ secrets.AZURE_CLIENT_ID }}, $SecureStringPwd
+          Connect-AzAccount -ServicePrincipal -Credential $pscredential -Tenant "${{ secrets.AZURE_TENANT_ID }}"
+        shell: pwsh
+
+      - id: apim-import
+        name: import developer portal content
+        uses: jannemattila/azure-api-management-developer-portal-action@v1
+        with:
+          apimName: ${{env.APIM_NAME}}
+          resourceGroup: ${{env.RESOURCE_GROUP}}
+          direction: ${{env.DIRECTION}}
+          folder: ${{env.OUTPUT_FOLDER}}
