@@ -30,7 +30,6 @@ jobs:
     env:
       RESOURCE_GROUP: ${{vars.AZURE_RESOURCE_GROUP_NAME}}
       APIM_NAME: ${{vars.API_MANAGEMENT_SERVICE_NAME}}
-      #AZURE_CEDENTIALS: ${{secrets.AZURE_CREDENTIALS}}
       DIRECTION: 'Export' #use 'Import' to push changes into service
       OUTPUT_FOLDER: ${{ GITHUB.WORKSPACE }}/src/APIMDevPortal
    
@@ -73,13 +72,6 @@ jobs:
           name: APIM-Dev-Portal-Customizations
           path: ${{env.OUTPUT_FOLDER}}
           if-no-files-found: error
-          
-      - run: |
-          ls ${{env.OUTPUT_FOLDER}}
-          Write-Host "--------------"
-          ls ${{ env.OUTPUT_FOLDER }}/Media
-          Write-Host "--------------"
-        shell: pwsh
         
       - name: Create artifacts pull request
         uses: peter-evans/create-pull-request@v5     
