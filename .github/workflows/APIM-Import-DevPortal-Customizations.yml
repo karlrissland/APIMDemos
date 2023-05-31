@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       environment: 
-        description: 'environment to extract from'
+        description: 'environment to import to'
         required: true
         type: environment
   
@@ -39,7 +39,8 @@ jobs:
           Write-Host "APIM_NAME: ${{env.APIM_NAME}}"
           Write-Host "DIRECTION: ${{env.DIRECTION}}"
           Write-Host "OUTPUT_FOLDER: ${{env.OUTPUT_FOLDER}}"
-          Write-Host "vars: ${{vars}}"
+          Write-Host "vars rg: ${{vars.AZURE_RESOURCE_GROUP_NAME}}"
+          Write-Host "vars apim: ${{vars.API_MANGEMENT_SERVICE_NAME}}"
         shell: pwsh
         
       - uses: actions/checkout@v3    
