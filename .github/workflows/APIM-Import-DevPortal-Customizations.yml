@@ -70,6 +70,7 @@ jobs:
           }
         shell: pwsh
 
+        #NOTE: this will also publish the changes
       - id: apim-import
         name: import developer portal content
         uses: jannemattila/azure-api-management-developer-portal-action@v1
