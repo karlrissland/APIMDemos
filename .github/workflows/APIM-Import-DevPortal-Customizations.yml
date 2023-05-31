@@ -40,7 +40,7 @@ jobs:
           Write-Host "DIRECTION: ${{env.DIRECTION}}"
           Write-Host "OUTPUT_FOLDER: ${{env.OUTPUT_FOLDER}}"
           Write-Host "vars rg: ${{vars.AZURE_RESOURCE_GROUP_NAME}}"
-          Write-Host "vars apim: ${{vars.API_MANGEMENT_SERVICE_NAME}}"
+          Write-Host "vars apim: ${{vars.API_MANAGEMENT_SERVICE_NAME}}"
         shell: pwsh
         
       - uses: actions/checkout@v3    
