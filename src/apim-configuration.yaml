@@ -1,10 +1,9 @@
 apimServiceName: {#API_MANAGEMENT_SERVICE_NAME#}
-
 namedValues:
-#  - name: environment
-#    properties:
-#      displayName: environment
-#      value: "https://www.search2.com"
+  - name: environment
+    properties:
+      displayName: environment
+      value: "https://www.search2.com"
 #  - name: mysecretvalue
 #    properties:
 #      displayName: mysecretvalue
