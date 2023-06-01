@@ -22,8 +22,16 @@ The goal is to provide a simple working implementation of each scenario and docu
 In this scenario you will make changes to the development APIM instance via the Azure portal.  After updating via the portal, you will export those changes, merge them with main via a pull request, then publish them to your production environment.
 
 ### Creating new API in VSCode, deploying to Prod
+While the Azure Portal is easy to use, it may be easier to work with your APIs and APIM configuration via code.  We will leverage CodeSpaces and Visual Studio Code Extensions in this scenario.
 
 ### Deploy DevPortal Customizations to prod
 In this scenario you will make changes to the development APIM instances developer portal.  After publishing your customizations, you will export those changes, merge them with main via a pull request, then publish them to your production environments developer portal.
 
 ### Develop and Deploy Function and Function API
+Here we will show how to build a function app along with it's Azure APIM definition and deploy them together.  This will touch on what is needed to parameterize an API deployment across environments.
+
+## Architecture Overviews
+
+- GitHub Workflows
+- GitHub Repo Structure
+- APIM Export Structure
