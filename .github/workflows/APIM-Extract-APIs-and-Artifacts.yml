@@ -1,3 +1,10 @@
+#####################################################################################################
+# NOTE: The publisher keys off of environment variablesto change the behavior of the publish process.
+#       * CONFIGURATION_YAML_PATH - if exists, will use config file to select APIs to extract
+#
+#       More details here; https://github.com/Azure/apiops/wiki/Configuration#configuration-providers
+#####################################################################################################
+
 name: APIM - Extract APIs and Artifacts
 
 on:
@@ -9,11 +16,11 @@ on:
         required: true
         type: string
         default: 'dev'
-      CONFIGURATION_YAML_PATH: 
-        description: 'Choose whether to extract all APIs or extract specific APIs'
-        required: true
-        type: string
-        default: 'configuration.extractor.yaml'
+      USE_CONFIG_FILE: 
+        description: 'Use Config File to Choose APIs to Extract'
+        required: false
+        type: boolean
+        default: false
       API_SPECIFICATION_FORMAT:
         description: 'API Specification Format'
         required: true
@@ -26,13 +33,11 @@ on:
         description: 'environment to extract from'
         required: true
         type: environment
-      CONFIGURATION_YAML_PATH:
-        description: 'Choose Wether to extract all Apis or extract apis listed an extraction configuration file'     
-        required: true
-        type: choice
-        options:
-        - Extract All APIs
-        - configuration.extractor.yaml
+      USE_CONFIG_FILE: 
+        description: 'Use Config File to Choose APIs to Extract'
+        required: false
+        type: boolean
+        default: false
       API_SPECIFICATION_FORMAT:
         description: 'API Specification Format'     
         required: true
@@ -74,9 +79,9 @@ jobs:
       #      going to extract all APIs, we simply don't create that environment variable          #
       #############################################################################################
       - run: |
-          if ("${{inputs.CONFIGURATION_YAML_PATH}}" -ne "Extract All APIs" )
+          if ("${{inputs.USE_CONFIG_FILE}}" )
           {
-            "CONFIGURATION_YAML_PATH=${{github.event.inputs.CONFIGURATION_YAML_PATH}}" >> $env:GITHUB_ENV
+            "CONFIGURATION_YAML_PATH=${{ GITHUB.WORKSPACE }}/src/apim-extract-configuration.yaml" >> $env:GITHUB_ENV
           }
         shell: pwsh
     
