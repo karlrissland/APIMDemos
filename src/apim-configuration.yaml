@@ -1,6 +1,6 @@
 apimServiceName: {#API_MANAGEMENT_SERVICE_NAME#}
 
-#namedValues:
+namedValues:
 #  - name: environment
 #    properties:
 #      displayName: environment
