@@ -1,4 +1,4 @@
-name: APIM - Import APIs and Artifacts
+name: APIM - Publish APIs and Artifacts
 
 on:
   workflow_call:
@@ -9,11 +9,11 @@ on:
         required: true
         type: string
         default: 'dev'
-      CONFIGURATION_YAML_PATH: 
-        description: 'Choose whether to extract all APIs or extract specific APIs'
-        required: true
-        type: string
-        default: 'configuration.extractor.yaml'
+   #   CONFIGURATION_YAML_PATH: 
+   #     description: 'Choose whether to extract all APIs or extract specific APIs'
+   #     required: true
+   #     type: string
+   #     default: 'configuration.extractor.yaml'
 
   workflow_dispatch:
     inputs:
@@ -21,13 +21,13 @@ on:
         description: 'environment to extract from'
         required: true
         type: environment
-      CONFIGURATION_YAML_PATH:
-        description: 'Choose Wether to extract all Apis or extract apis listed an extraction configuration file'     
-        required: true
-        type: choice
-        options:
-        - Extract All APIs
-        - configuration.extractor.yaml
+  #    CONFIGURATION_YAML_PATH:
+  #      description: 'Choose Wether to extract all Apis or extract apis listed an extraction configuration file'     
+  #      required: true
+  #      type: choice
+  #      options:
+  #      - Extract All APIs
+  #      - configuration.extractor.yaml
 
 permissions:
   id-token: write
