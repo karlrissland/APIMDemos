@@ -74,7 +74,7 @@ jobs:
           tokenSuffix: "#}"
           files: ${{ env.CONFIGURATION_YAML_PATH }}
         env:
-          API_MANAGEMENT_SERVICE_NAME: "{{env.API_MANAGEMENT_SERVICE_NAME}}"
+          API_MANAGEMENT_SERVICE_NAME: "${{env.API_MANAGEMENT_SERVICE_NAME}}"
       
       - run: |
           type ${{env.CONFIGURATION_YAML_PATH}}
