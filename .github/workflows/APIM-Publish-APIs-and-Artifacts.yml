@@ -1,7 +1,7 @@
 #####################################################################################################
 # NOTE: The publisher keys off of environment variablesto change the behavior of the publish process.
 #       * CONFIGURATION_YAML_PATH - if exists, will use config file to override settings on publish
-#       * COMMIT_ID - if exists, will only publish changes that occurred in this commit.
+#       * COMMIT_ID - if exists, will only publish changes that occurred in this commit(not implemented)
 #
 #       More details here; https://github.com/Azure/apiops/wiki/Configuration#configuration-providers
 #####################################################################################################
@@ -22,11 +22,11 @@ on:
         required: false
         type: boolean
         default: false
-      DEPLOY_COMMIT_ONLY:
-        description: 'deploy only changes from commit'
-        required: false
-        type: boolean
-        default: false
+     # DEPLOY_COMMIT_ONLY:
+     #   description: 'deploy only changes from commit'
+     #   required: false
+     #   type: boolean
+     #   default: false
 
   workflow_dispatch:
     inputs:
@@ -39,11 +39,11 @@ on:
         required: false
         type: boolean
         default: false
-      DEPLOY_COMMIT_ONLY:
-        description: 'deploy only changes from commit'
-        required: false
-        type: boolean
-        default: false
+      #DEPLOY_COMMIT_ONLY:
+      #  description: 'deploy only changes from commit'
+      #  required: false
+      #  type: boolean
+      #  default: false
 
 permissions:
   id-token: write
@@ -82,11 +82,11 @@ jobs:
             "CONFIGURATION_YAML_PATH=${{ GITHUB.WORKSPACE }}/src/apim-publish-configuration.yaml" >> $env:GITHUB_ENV
             Write-Host "--Using configuration file"
           }
-          if ("${{inputs.DEPLOY_COMMIT_ONLY}}" -eq "true")
-          {
-            "COMMIT_ID=${{ github.sha }}" >> $env:GITHUB_ENV
-            Write-Host "--Using Commit_ID"
-          }
+         # if ("${{inputs.DEPLOY_COMMIT_ONLY}}" -eq "true")
+         # {
+         #   "COMMIT_ID=${{ github.sha }}" >> $env:GITHUB_ENV
+         #   Write-Host "--Using Commit_ID"
+         # }
         shell: pwsh
     
       - run: |
