@@ -80,12 +80,12 @@ jobs:
           if ("${{inputs.USE_CONFIG_FILE}}" -eq "true")
           {
             "CONFIGURATION_YAML_PATH=${{ GITHUB.WORKSPACE }}/src/apim-publish-configuration.yaml" >> $env:GITHUB_ENV
-            Write-Host "--Using configuration file ${{env.CONFIGURATION_YAML_PATH}}"
+            Write-Host "--Using configuration file"
           }
           if ("${{inputs.DEPLOY_COMMIT_ONLY}}" -eq "true")
           {
             "COMMIT_ID=${{ github.sha }}" >> $env:GITHUB_ENV
-            Write-Host "--Using Commit_ID ${{env.COMMIT_ID}}"
+            Write-Host "--Using Commit_ID"
           }
         shell: pwsh
     
