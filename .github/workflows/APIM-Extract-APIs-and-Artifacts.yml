@@ -76,10 +76,11 @@ jobs:
       #############################################################################################
       #NOTE: The extractor is looking for the existance of this environment variable to determine #
       #      if it is going to extract a set of APIs as opposed to all the APIS.  If we are       #
-      #      going to extract all APIs, we simply don't create that environment variable          #
+      #      going to extract all APIs, we simply don't create that environment variable.         #
+      #      This is where you add the absolute path to the configuration file.                   #
       #############################################################################################
       - run: |
-          if ("${{inputs.USE_CONFIG_FILE}}" )
+          if ("${{inputs.USE_CONFIG_FILE}}" -eq "true" )
           {
             "CONFIGURATION_YAML_PATH=${{ GITHUB.WORKSPACE }}/src/apim-extract-configuration.yaml" >> $env:GITHUB_ENV
           }
