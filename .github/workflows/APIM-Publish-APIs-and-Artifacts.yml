@@ -77,12 +77,12 @@ jobs:
       #      This is where you add the absolute path to the config file.                            #
       ###############################################################################################
       - run: |
-          if ("${{inputs.USE_CONFIG_FILE}}" -eq true)
+          if ("${{inputs.USE_CONFIG_FILE}}" -eq "true")
           {
             "CONFIGURATION_YAML_PATH=${{ GITHUB.WORKSPACE }}/src/apim-publish-configuration.yaml" >> $env:GITHUB_ENV
             Write-Host "--Using configuration file ${{env.CONFIGURATION_YAML_PATH}}"
           }
-          if ("${{inputs.DEPLOY_COMMIT_ONLY}}" -eq true)
+          if ("${{inputs.DEPLOY_COMMIT_ONLY}}" -eq "true")
           {
             "COMMIT_ID=${{ github.sha }}" >> $env:GITHUB_ENV
             Write-Host "--Using Commit_ID ${{env.COMMIT_ID}}"
