@@ -76,7 +76,12 @@ jobs:
         env:
           API_MANAGEMENT_SERVICE_NAME: "{{env.API_MANAGEMENT_SERVICE_NAME}}"
       
-      - name: Run publisher without Config Yaml or Commit ID
+      - run: |
+          type ${{env.CONFIGURATION_YAML_PATH}}
+        shell: pwsh
+      
+      
+      - name: Run publisher
         run: |
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
