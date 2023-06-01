@@ -1,4 +1,4 @@
-name: APIM - Import DevPortal Customizations
+name: APIM - Publish DevPortal Customizations
 
 on:
   workflow_call:
