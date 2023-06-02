@@ -11,7 +11,6 @@ permissions:
   actions: write
   checks: write
   contents: write
-  environment: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -26,4 +25,4 @@ jobs:
     - run: |
         gh api --method PATCH  /repositories/645372410/environments/dev/variables/TEST -f name='TEST' -f value=Test
       env:
-       GH_TOKEN: ${{ github.token }}
+       GH_TOKEN: ${{ secrets.GH_PAT }}
