@@ -1,0 +1,86 @@
+name: Infra - Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: 'environment to run on'
+        required: true
+        default: 'development'
+
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+  deployInfra:
+    name: 'deploy infrastructure'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: 'Az CLI login'
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - run: |
+        echo "parameters: environment=${{vars.WORKLOAD_ENVIRONMENT}} location=${{vars.AZURE_REGION}}"
+        echo "github refs: ${{GITHUB.REF}}.${{GITHUB.SHA}}  "
+        echo "region: ${{vars.AZURE_REGION}} "
+        echo "environment is: ${{ inputs.environment }} / ${{ inputs.environment }}"
+
+    - name: Deploy Azure Resource Manager (ARM) Template
+      uses: Azure/arm-deploy@v1.0.9
+      id: deploy
+      with:
+        scope: subscription
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        template: ./infrastructure/main.bicep
+        deploymentMode: Incremental 
+        deploymentName: githubsha${{GITHUB.SHA}}                                   
+        region: ${{vars.AZURE_REGION}}                                                            # Want this driven from an environment variable
+        parameters: 'environment=${{vars.WORKLOAD_ENVIRONMENT}} location=${{vars.AZURE_REGION}}'  # Can also specify a parameters file location.  Want these driven from environment variables
+        failOnStdErr: false
+
+    #Will need to update environment variables with this info
+    - run: |
+        echo "LogicAppPlan_name: ${{ steps.deploy.outputs.LogicAppPlan_name }}"
+        echo "LogicApp_name: ${{ steps.deploy.outputs.LogicApp_name}}"
+        echo "LogicApp_Storage_name: ${{ steps.deploy.outputs.LogicApp_Storage_name }}"
+        echo "ResourceGroupName: ${{ steps.deploy.outputs.ResourceGroupName }}"
+
+    #Update variables with outputs, these will be used by the app deployment script.
+    #this approach is cumbersome, couldn't find another way to update a variable... suggestions welcome
+    #NOTE: Had to create a PAT with the correct permissions to write a variable, this works but it will expire eventually and break the workflow
+    #      the error will mention that it can't do integration operations or something...basically a 403
+    #Alternatives
+    # - Read and write a parameter file to the repo
+    # - Use Keyvault or Azure App Config
+    
+    #  This is how you update a repository level variable
+    #- run: |
+    #    gh api  /repos/karlrissland/Logic-App-Standard-Deployment/actions/variables/RESOURCEGROUPNAME -f name='RESOURCEGROUPNAME' -f value=${{ steps.deploy.outputs.ResourceGroupName }}
+    #    gh api  /repos/karlrissland/Logic-App-Standard-Deployment/actions/variables/LOGICAPPPLAN_NAME -f name='LOGICAPPPLAN_NAME' -f value=${{ steps.deploy.outputs.LogicAppPlan_name }}
+    #    gh api  /repos/karlrissland/Logic-App-Standard-Deployment/actions/variables/LOGICAPP_NAME -f name='LOGICAPP_NAME' -f value=${{ steps.deploy.outputs.LogicApp_name}}
+    #  env:
+    #    GH_TOKEN: ${{ secrets.GH_PAT }}  
+
+    # This is how you update an environment level variable
+    # Note: the number after repositories is the repository id.  You get this via "gh api /repos/karlrissland/logic-app-standard-deployment"
+    - run: |
+        gh api --method PATCH  /repositories/${{vars.GH_REPO_ID}}/environments/${{ inputs.environment }}/variables/RESOURCEGROUPNAME -f name='RESOURCEGROUPNAME' -f value=${{ steps.deploy.outputs.ResourceGroupName }}
+        gh api --method PATCH  /repositories/${{vars.GH_REPO_ID}}/environments/${{ inputs.environment }}/variables/LOGICAPPPLAN_NAME -f name='LOGICAPPPLAN_NAME' -f value=${{ steps.deploy.outputs.LogicAppPlan_name }}
+        gh api --method PATCH  /repositories/${{vars.GH_REPO_ID}}/environments/${{ inputs.environment }}/variables/LOGICAPP_NAME -f name='LOGICAPP_NAME' -f value=${{ steps.deploy.outputs.LogicApp_name}}
+      env:
+        GH_TOKEN: ${{ secrets.GH_PAT }}  
