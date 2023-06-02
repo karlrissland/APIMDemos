@@ -43,3 +43,5 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2021-08-01' = {
     publisherName: publisherName
   }
 }
+
+output AZURE_RESOURCE_GROUP_NAME string = apiManagementServiceName

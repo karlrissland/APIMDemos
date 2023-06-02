@@ -42,3 +42,7 @@ module FunctionDeploy 'functions.bicep' = {
     location: location
   }
 }
+
+output AZURE_RESOURCE_GROUP_NAME string = ResourceGroupName
+output API_MANAGEMENT_SERVICE_NAME string = APIMDeploy.outputs.AZURE_RESOURCE_GROUP_NAME
+output FUNCTION_SERVICE_NAME string = FunctionDeploy.outputs.FUNCTION_SERVICE_NAME
