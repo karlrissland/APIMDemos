@@ -35,7 +35,7 @@ jobs:
           enable-AzPSSession: true
         
     - run: |
-        Write-Host "parameters: environment=${{vars.WORKLOAD_ENVIRONMENT}} location=${{vars.AZURE_REGION}}"
+        Write-Host "parameters: environment=${{inputs.environment}} location=${{vars.AZURE_REGION}}"
         Write-Host "github refs: ${{GITHUB.REF}}.${{GITHUB.SHA}}  "
         Write-Host "region: ${{vars.AZURE_REGION}} "
         Write-Host "environment is: ${{ inputs.environment }} / ${{ inputs.environment }}"
@@ -51,7 +51,7 @@ jobs:
         deploymentMode: Incremental 
         deploymentName: githubsha${{GITHUB.SHA}}                                   
         region: ${{vars.AZURE_REGION}}                                                            # Want this driven from an environment variable
-        parameters: 'environment=${{vars.WORKLOAD_ENVIRONMENT}} location=${{vars.AZURE_REGION}}'  # Can also specify a parameters file location.  Want these driven from environment variables
+        parameters: 'environment=${{inputs.environment}} location=${{vars.AZURE_REGION}}'  # Can also specify a parameters file location.  Want these driven from environment variables
         failOnStdErr: false
 
     #Will need to update environment variables with this info
