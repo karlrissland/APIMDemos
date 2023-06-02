@@ -33,6 +33,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - run: |
-        gh api --method PATCH  /repositories/R_kgDOJneZ-g/environments/dev/variables/TEST -f name='TEST' -f value=Test
+        gh api --method PATCH  /repositories/645372410/environments/dev/variables/TEST -f name='TEST' -f value=Test
       env:
        GH_TOKEN: ${{ github.token }}
