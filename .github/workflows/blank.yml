@@ -11,16 +11,7 @@ permissions:
   actions: write
   checks: write
   contents: write
-  deployments: write
-  id-token: write
-  issues: write
-  discussions: write
-  packages: write
-  pages: write
-  pull-requests: write
-  repository-projects: write
-  security-events: write
-  statuses: write
+  environment: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
